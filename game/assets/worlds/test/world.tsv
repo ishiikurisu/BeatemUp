@@ -1,0 +1,4 @@
+entity	x	y	sprite
+player	400	400	red
+enemy	200	200	green
+enemy	1000	1000	green
