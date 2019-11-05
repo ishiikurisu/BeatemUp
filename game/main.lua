@@ -6,8 +6,8 @@ end
 
 function love.keypressed(key, scancode, isrepeat)
     current_controller:push({
-        key => key,
-        edge => "rise"
+        key = key,
+        edge = "rise"
     })
 end
 
@@ -16,8 +16,8 @@ function love.keyreleased(key)
       love.event.quit()
    end
    current_controller:push({
-       key => key,
-       edge => "fall"
+       key = key,
+       edge = "fall"
    })
 end
 

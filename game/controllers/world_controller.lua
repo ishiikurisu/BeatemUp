@@ -1,4 +1,6 @@
 local world_view = require "/views/world_view"
+local player_model = require "/entities/player"
+local broadcaster = require "/signals/broadcaster"
 local world_controller = { }
 world_controller.__index = world_controller
 
@@ -8,6 +10,16 @@ function world_controller:new(world)
     o.actions = { }
     o.view = world_view:new(self)
     -- TODO define world, as it should contain entities, geometry, and whatever else is needed to run the game
+    o.broadcaster = broadcaster:new()
+    o.player = player_model:new()
+
+    o.entities = {
+        o.player
+    }
+
+    for _, it in pairs(o.entities) do
+        o.broadcaster:subscribe(it)
+    end
     return o
 end
 
