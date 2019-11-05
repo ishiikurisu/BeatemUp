@@ -3,11 +3,13 @@ player.__index = player
 
 function player:new()
     local o = { }
-    setmetatable(o, broadcaster)
+    setmetatable(o, player)
     o.position = {
         x = 400,
         y = 400
     }
+    -- TODO allow multiple states (so I can move diagonally)
+    o.state = "idle"
     o.color = {
         255, -- red
         0,   -- green
@@ -17,7 +19,36 @@ function player:new()
 end
 
 function player:receive(message)
+    -- TODO separate the message reception and player update
+    if message.action == "start moving up" then
+        self.state = "moving up"
+    elseif message.action == "stop moving up" then
+        self.state = "idle"
+    elseif message.action == "start moving left" then
+        self.state = "moving left"
+    elseif message.action == "stop moving left" then
+        self.state = "idle"
+    elseif message.action == "start moving down" then
+        self.state = "moving down"
+    elseif message.action == "stop moving down" then
+        self.state = "idle"
+    elseif message.action == "start moving right" then
+        self.state = "moving right"
+    elseif message.action == "stop moving right" then
+        self.state = "idle"
+    end
+end
 
+function player:update(dt)
+    if self.state == "moving up" then
+        self.position.y = self.position.y - 1
+    elseif self.state == "moving down" then
+        self.position.y = self.position.y + 1
+    elseif self.state == "moving left" then
+        self.position.x = self.position.x - 1
+    elseif self.state == "moving right" then
+        self.position.x = self.position.x + 1
+    end
 end
 
 return player
