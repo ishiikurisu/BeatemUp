@@ -1,17 +1,10 @@
+local pawn_prototype = require "/entities/pawn"
 local player = { }
 player.__index = player
 
 function player:new(model)
-    local o = { }
+    local o = pawn_prototype:new(model)
     setmetatable(o, player)
-    o.position = {
-        x = model.x,
-        y = model.y
-    }
-    o.dimensions = {
-        w = model.w,
-        h = model.h
-    }
     -- TODO allow multiple states (so I can move diagonally)
     o.state = "idle"
     -- TODO use actual sprite instead of fixed colors
