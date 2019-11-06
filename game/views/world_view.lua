@@ -14,14 +14,14 @@ function world_view:draw(controller)
     love.graphics.setBackgroundColor(black)
 
     -- TODO draw entities
-
-    -- drawing player
-    local x = controller.player.position.x + 5
-    local y = controller.player.position.y + 5
-    local width = 10
-    local height = 10
-    love.graphics.setColor(controller.player.color)
-    love.graphics.rectangle("fill", x, y, width, height)
+    for _, entity in pairs(controller.entities) do
+        local x = entity.position.x + 5
+        local y = entity.position.y + 5
+        local width = 10
+        local height = 10
+        love.graphics.setColor(entity.color)
+        love.graphics.rectangle("fill", x, y, width, height)
+    end
 end
 
 return world_view

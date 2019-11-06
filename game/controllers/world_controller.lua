@@ -1,7 +1,9 @@
 local world_view = require "/views/world_view"
 local player_model = require "/entities/player"
+local enemy_model = require "/entities/enemy"
 local joystick_model = require "/entities/joystick"
 local broadcaster = require "/signals/broadcaster"
+local level_model = require "/models/level"
 local world_controller = { }
 world_controller.__index = world_controller
 
@@ -16,12 +18,21 @@ function world_controller:new(world)
 
     -- TODO define world, as it should contain entities, geometry, and whatever else is needed to run the game
     o.broadcaster = broadcaster:new()
-    o.player = player_model:new()
-    o.entities = {
-        o.player
+    o.entities = { }
+    local kinds = {
+        player = player_model,
+        enemy = enemy_model
     }
-    for _, it in pairs(o.entities) do
-        o.broadcaster:subscribe(it)
+
+    for _, data in pairs(level_model:load_level(world)) do
+        local model = kinds[data.entity]
+
+
+        if model ~= nil then
+            local entity = model:new(data)
+            table.insert(o.entities, entity)
+            o.broadcaster:subscribe(entity)
+        end
     end
 
     return o

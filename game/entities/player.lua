@@ -1,15 +1,18 @@
 local player = { }
 player.__index = player
 
-function player:new()
+function player:new(model)
     local o = { }
     setmetatable(o, player)
     o.position = {
-        x = 400,
-        y = 400
+        x = model.x,
+        y = model.y
     }
     -- TODO allow multiple states (so I can move diagonally)
     o.state = "idle"
+    -- TODO load that from file
+    -- TODO use actual sprite instead of fixed colors
+    -- TODO use actual images instead of colors
     o.color = {
         255, -- red
         0,   -- green

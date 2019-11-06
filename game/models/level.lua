@@ -46,9 +46,6 @@ function level_model:load_level(world)
     local level_path = "assets/worlds/" .. world .. "/"
     local world_data_path = level_path .. "world.tsv"
     local world = load_tsv(world_data_path)
-
-    write_tsv(world)
-    
     return world
 end
 
