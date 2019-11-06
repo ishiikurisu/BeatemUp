@@ -1,7 +1,7 @@
 local world_view = require "/views/world_view"
 local player_model = require "/entities/player"
 local enemy_model = require "/entities/enemy"
-local joystick_model = require "/entities/joystick"
+local joystick_view = require "/views/joystick"
 local broadcaster = require "/signals/broadcaster"
 local level_model = require "/models/level"
 local brick_model = require "/entities/brick"
@@ -12,10 +12,6 @@ function world_controller:new(world)
     local o = { }
     setmetatable(o, world_controller)
     o.actions = { }
-
-    -- TODO define tangible components
-    o.joystick = joystick_model:new()
-    o.view = world_view:new(self)
 
     -- TODO define world, as it should contain entities, geometry, and whatever else is needed to run the game
     o.broadcaster = broadcaster:new()
@@ -35,6 +31,10 @@ function world_controller:new(world)
             o.broadcaster:subscribe(entity)
         end
     end
+
+    -- TODO define tangible components
+    o.joystick = joystick_view:new(o)
+    o.view = world_view:new(o)
 
     return o
 end

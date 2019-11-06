@@ -17,7 +17,7 @@ function geometry:new(model)
     return o
 end
 
-function geometry:receive(message)
+function geometry:receive(message, broadcaster)
 
 end
 

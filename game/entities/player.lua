@@ -7,6 +7,7 @@ function player:new(model)
     setmetatable(o, player)
     -- TODO use actual sprite instead of fixed colors
     -- TODO use actual images instead of colors
+    o.kind = "player"
     o.color = {
         255, -- red
         0,   -- green
@@ -15,32 +16,35 @@ function player:new(model)
     return o
 end
 
-function player:receive(message)
-    -- TODO detect colisions
-    if message.action == "start moving up" then
-        self.status.up = true
-        self.status.down = false
-    elseif message.action == "stop moving up" then
-        self.status.up = false
-    elseif message.action == "start moving left" then
-        self.status.left = true
-        self.status.right = false
-    elseif message.action == "stop moving left" then
-        self.status.left = false
-    elseif message.action == "start moving down" then
-        self.status.down = true
-        self.status.up = false
-    elseif message.action == "stop moving down" then
-        self.status.down = false
-    elseif message.action == "start moving right" then
-        self.status.right = true
-        self.status.left = false
-    elseif message.action == "stop moving right" then
-        self.status.right = falses
+function player:receive(message, broadcaster)
+    local side_effect = nil
+
+    if message.name == "move" and message.agent == self then
+        self.status[message.direction] = true
+        local direction = pawn_prototype:get_direction(message.direction)
+        side_effect = {
+            name = "collide",
+            agent = self,
+            direction = message.direction,
+            target = {
+                position = {
+                    x = self.position.x + direction.x,
+                    y = self.position.y + direction.y
+                },
+                dimensions = self.dimensions
+            }
+        }
+    elseif message.name == "stop" and message.agent == self then
+        self.status[message.direction] = false
+    end
+
+    if side_effect ~= nil then
+        broadcaster:broadcast(side_effect)
     end
 end
 
 function player:update(dt)
+    -- TODO detect collisions here, not in the receive function
     if self.status.up then
         self.position.y = self.position.y - 1
         self.direction = "north"

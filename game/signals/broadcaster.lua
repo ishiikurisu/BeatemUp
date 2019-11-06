@@ -14,7 +14,7 @@ end
 
 function broadcaster:broadcast(message)
     for _, entity in pairs(self.entities) do
-        entity:receive(message)
+        entity:receive(message, self)
     end
 end
 

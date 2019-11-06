@@ -1,56 +1,76 @@
 local joystick = { }
 joystick.__index = joystick
 
-function joystick:new()
+function joystick:new(controller)
     local o = { }
     setmetatable(o, joystick)
+
+    o.player = nil
+    for _, entity in pairs(controller.entities) do
+        if entity.kind == "player" then
+            o.player = entity
+        end
+    end
+
     return o
 end
 
-function joystick:translate(inlet)
-    local outlet
 
-    -- IDEA maybe this doesnt need to be a class
+function joystick:translate(inlet)
+    local outlet = nil
+
     if inlet.key == 'w' then
         if inlet.edge == 'rise' then
             outlet = {
-                action = "start moving up"
+                name = "move",
+                direction = "up"
             }
         else
             outlet = {
-                action = "stop moving up"
+                name = "stop",
+                direction = "up"
             }
         end
     elseif inlet.key == 'a' then
         if inlet.edge == 'rise' then
             outlet = {
-                action = "start moving left"
+                name = "move",
+                direction = "left"
             }
         else
             outlet = {
-                action = "stop moving left"
+                name = "stop",
+                direction = "left"
             }
         end
     elseif inlet.key == 's' then
         if inlet.edge == 'rise' then
             outlet = {
-                action = "start moving down"
+                name = "move",
+                direction = "down"
             }
         else
             outlet = {
-                action = "stop moving down"
+                name = "stop",
+                direction = "down"
             }
         end
     elseif inlet.key == 'd' then
         if inlet.edge == 'rise' then
             outlet = {
-                action = "start moving right"
+                name = "move",
+                direction = "right"
             }
         else
             outlet = {
-                action = "stop moving right"
+                name = "stop",
+                direction = "right"
             }
         end
+    end
+
+    if outlet ~= nil then
+        outlet.agent = self.player
     end
 
     return outlet

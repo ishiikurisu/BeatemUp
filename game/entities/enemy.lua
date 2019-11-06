@@ -14,7 +14,7 @@ function enemy:new(model)
     return o
 end
 
-function enemy:receive(message)
+function enemy:receive(message, broadcaster)
 
 end
 
