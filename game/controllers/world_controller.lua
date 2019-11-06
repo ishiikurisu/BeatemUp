@@ -4,6 +4,7 @@ local enemy_model = require "/entities/enemy"
 local joystick_model = require "/entities/joystick"
 local broadcaster = require "/signals/broadcaster"
 local level_model = require "/models/level"
+local brick_model = require "/entities/brick"
 local world_controller = { }
 world_controller.__index = world_controller
 
@@ -21,7 +22,8 @@ function world_controller:new(world)
     o.entities = { }
     local kinds = {
         player = player_model,
-        enemy = enemy_model
+        enemy = enemy_model,
+        brick = brick_model,
     }
 
     for _, data in pairs(level_model:load_level(world)) do

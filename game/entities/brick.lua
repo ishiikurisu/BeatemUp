@@ -1,10 +1,10 @@
-local enemy = { }
-enemy.__index = enemy
+local brick = { }
+brick.__index = brick
 
-function enemy:new(model)
+function brick:new(model)
     -- TODO create template for pawns since both players and enemies have many stuff in common
     local o = { }
-    setmetatable(o, enemy)
+    setmetatable(o, brick)
     o.position = {
         x = model.x,
         y = model.y
@@ -14,19 +14,19 @@ function enemy:new(model)
         h = model.h
     }
     o.color = {
-        0, -- red
+        255, -- red
         255,   -- green
-        0    -- blue
+        255    -- blue
     }
     return o
 end
 
-function enemy:receive(message)
+function brick:receive(message)
 
 end
 
-function enemy:update(dt)
+function brick:update(dt)
 
 end
 
-return enemy
+return brick

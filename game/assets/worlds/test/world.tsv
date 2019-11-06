@@ -1,4 +1,8 @@
-entity	x	y	sprite
-player	400	400	red
-enemy	200	200	green
-enemy	1000	1000	green
+entity	x	y	w	h	sprite
+player	400	400	10	10	red
+enemy	200	200	10	10	green
+enemy	1000	1000	10	10	green
+brick	0	0	2000	100	white
+brick	0	100	100	1800	white
+brick	1900	100	1800	100	white
+brick	0	1900	2000	100	white

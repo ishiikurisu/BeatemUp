@@ -8,9 +8,12 @@ function player:new(model)
         x = model.x,
         y = model.y
     }
+    o.dimensions = {
+        w = model.w,
+        h = model.h
+    }
     -- TODO allow multiple states (so I can move diagonally)
     o.state = "idle"
-    -- TODO load that from file
     -- TODO use actual sprite instead of fixed colors
     -- TODO use actual images instead of colors
     o.color = {
