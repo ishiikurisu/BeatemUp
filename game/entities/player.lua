@@ -5,8 +5,6 @@ player.__index = player
 function player:new(model)
     local o = pawn_prototype:new(model)
     setmetatable(o, player)
-    -- TODO allow multiple states (so I can move diagonally)
-    o.state = "idle"
     -- TODO use actual sprite instead of fixed colors
     -- TODO use actual images instead of colors
     o.color = {
@@ -18,35 +16,46 @@ function player:new(model)
 end
 
 function player:receive(message)
-    -- TODO separate the message reception and player update
+    -- TODO detect colisions
     if message.action == "start moving up" then
-        self.state = "moving up"
+        self.status.up = true
+        self.status.down = false
     elseif message.action == "stop moving up" then
-        self.state = "idle"
+        self.status.up = false
     elseif message.action == "start moving left" then
-        self.state = "moving left"
+        self.status.left = true
+        self.status.right = false
     elseif message.action == "stop moving left" then
-        self.state = "idle"
+        self.status.left = false
     elseif message.action == "start moving down" then
-        self.state = "moving down"
+        self.status.down = true
+        self.status.up = false
     elseif message.action == "stop moving down" then
-        self.state = "idle"
+        self.status.down = false
     elseif message.action == "start moving right" then
-        self.state = "moving right"
+        self.status.right = true
+        self.status.left = false
     elseif message.action == "stop moving right" then
-        self.state = "idle"
+        self.status.right = falses
     end
 end
 
 function player:update(dt)
-    if self.state == "moving up" then
+    if self.status.up then
         self.position.y = self.position.y - 1
-    elseif self.state == "moving down" then
+        self.direction = "north"
+    end
+    if self.status.down then
         self.position.y = self.position.y + 1
-    elseif self.state == "moving left" then
+        self.direction = "south"
+    end
+    if self.status.left then
         self.position.x = self.position.x - 1
-    elseif self.state == "moving right" then
+        self.direction = "west"
+    end
+    if self.status.right then
         self.position.x = self.position.x + 1
+        self.direction = "east"
     end
 end
 

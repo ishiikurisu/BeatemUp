@@ -29,7 +29,6 @@ function world_controller:new(world)
     for _, data in pairs(level_model:load_level(world)) do
         local model = kinds[data.entity]
 
-
         if model ~= nil then
             local entity = model:new(data)
             table.insert(o.entities, entity)
