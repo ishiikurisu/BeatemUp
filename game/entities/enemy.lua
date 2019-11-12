@@ -18,7 +18,7 @@ function enemy:receive(message, broadcaster)
 
 end
 
-function enemy:update(dt)
+function enemy:update(dt, broadcaster)
 
 end
 

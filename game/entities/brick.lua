@@ -14,10 +14,10 @@ function brick:new(model)
 end
 
 function collideX(a, b)
-    local bx = tonumber(b.position.x)
     local ax = tonumber(a.position.x)
-    local bw = tonumber(b.dimensions.w) / 2
+    local bx = tonumber(b.position.x)
     local aw = tonumber(a.dimensions.w) / 2
+    local bw = tonumber(b.dimensions.w) / 2
     local a0 = ax - aw
     local a1 = ax + aw
     local b0 = bx - bw
@@ -26,10 +26,10 @@ function collideX(a, b)
 end
 
 function collideY(a, b)
-    local by = tonumber(b.position.y)
     local ay = tonumber(a.position.y)
-    local bh = tonumber(b.dimensions.h) / 2
+    local by = tonumber(b.position.y)
     local ah = tonumber(a.dimensions.h) / 2
+    local bh = tonumber(b.dimensions.h) / 2
     local a0 = ay - ah
     local a1 = ay + ah
     local b0 = by - bh
@@ -45,17 +45,17 @@ function brick:receive(message, broadcaster)
     if message.name == "collide" then
         local is_collision = collide(self, message.target)
         if is_collision then
-            broadcaster:broadcast({
-                name = "stop",
-                agent = message.agent,
-                direction = message.direction
-            })
+            print("yes collision!")
+            message.agent.position.x = message.agent.position.x - message.direction.x
+            message.agent.position.y = message.agent.position.y - message.direction.y
+        else
+            print("no collision!")
         end
     end
 end
 
 
-function brick:update(dt)
+function brick:update(dt, broadcaster)
 
 end
 

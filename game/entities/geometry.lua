@@ -21,7 +21,7 @@ function geometry:receive(message, broadcaster)
 
 end
 
-function geometry:update(dt)
+function geometry:update(dt, broadcaster)
 
 end
 

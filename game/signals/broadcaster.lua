@@ -2,6 +2,7 @@ local broadcaster = { }
 broadcaster.__index = broadcaster
 
 function broadcaster:new()
+    -- IDEA replace me by love.event
     local o = { }
     setmetatable(o, broadcaster)
     o.entities = { }

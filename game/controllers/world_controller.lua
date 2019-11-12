@@ -56,7 +56,7 @@ function world_controller:update(dt)
     self.actions = { }
 
     for _, it in pairs(self.entities) do
-        it:update(dt)
+        it:update(dt, self.broadcaster)
     end
 
     return controller

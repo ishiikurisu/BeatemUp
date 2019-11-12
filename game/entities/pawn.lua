@@ -19,7 +19,7 @@ function pawn:receive(message, broadcaster)
 
 end
 
-function pawn:update(dt)
+function pawn:update(dt, broadcaster)
 
 end
 

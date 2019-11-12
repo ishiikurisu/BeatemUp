@@ -17,49 +17,50 @@ function player:new(model)
 end
 
 function player:receive(message, broadcaster)
-    local side_effect = nil
-
     if message.name == "move" and message.agent == self then
         self.status[message.direction] = true
-        local direction = pawn_prototype:get_direction(message.direction)
-        side_effect = {
-            name = "collide",
-            agent = self,
-            direction = message.direction,
-            target = {
-                position = {
-                    x = self.position.x + direction.x,
-                    y = self.position.y + direction.y
-                },
-                dimensions = self.dimensions
-            }
-        }
     elseif message.name == "stop" and message.agent == self then
         self.status[message.direction] = false
     end
-
-    if side_effect ~= nil then
-        broadcaster:broadcast(side_effect)
-    end
 end
 
-function player:update(dt)
-    -- TODO detect collisions here, not in the receive function
+function player:update(dt, broadcaster)
+    local directions = { }
+
     if self.status.up then
-        self.position.y = self.position.y - 1
         self.direction = "north"
+        self.position.y = self.position.y - 1
+        table.insert(directions, "north")
     end
     if self.status.down then
         self.position.y = self.position.y + 1
         self.direction = "south"
+        table.insert(directions, "south")
     end
     if self.status.left then
         self.position.x = self.position.x - 1
         self.direction = "west"
+        table.insert(directions, "west")
     end
     if self.status.right then
         self.position.x = self.position.x + 1
         self.direction = "east"
+        table.insert(directions, "east")
+    end
+
+    for _, direction in pairs(directions) do
+        broadcaster:broadcast({
+            name = "collide",
+            agent = self,
+            direction = pawn_prototype:get_direction(direction),
+            target = {
+                position = {
+                    x = self.position.x,
+                    y = self.position.y
+                },
+                dimensions = self.dimensions
+            }
+        })
     end
 end
 
