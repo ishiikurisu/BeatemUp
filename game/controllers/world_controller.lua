@@ -13,7 +13,8 @@ function world_controller:new(world)
     setmetatable(o, world_controller)
     o.actions = { }
 
-    -- TODO define world, as it should contain entities, geometry, and whatever else is needed to run the game
+    love.physics.setMeter(2)
+    o.world = love.physics.newWorld(0, 0, true)
     o.broadcaster = broadcaster:new()
     o.entities = { }
     local kinds = {
@@ -26,7 +27,7 @@ function world_controller:new(world)
         local model = kinds[data.entity]
 
         if model ~= nil then
-            local entity = model:new(data)
+            local entity = model:new(o.world, data)
             table.insert(o.entities, entity)
             o.broadcaster:subscribe(entity)
         end
@@ -47,16 +48,14 @@ end
 function world_controller:update(dt)
     local controller = self
 
+    self.world:update(dt)
     for _, action in pairs(self.actions) do
-        -- IDEA what about I include a context (aka the own controller) in this action?
-        -- IDEA I mean, how can an entity interact with the rest world (broadcast their own messages) without a context?
-        self.broadcaster:broadcast(action)
+        self.broadcaster:broadcast(action, self)
     end
-    -- IDEA broadcast a "tick" message so I can combine multiple actions at a time
     self.actions = { }
 
     for _, it in pairs(self.entities) do
-        it:update(dt, self.broadcaster)
+        it:update(dt, self)
     end
 
     return controller

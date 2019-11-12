@@ -1,61 +1,28 @@
-local geometry_prototype = require "/entities/geometry"
 local brick = { }
 brick.__index = brick
 
-function brick:new(model)
-    local o = geometry_prototype:new(model)
+function brick:new(world, model)
+    local o = { }
     setmetatable(o, brick)
     o.color = {
         255, -- red
         255, -- green
         255  -- blue
     }
+
+    o.body = love.physics.newBody(world, model.x, model.y, "static")
+    o.shape = love.physics.newRectangleShape(model.w, model.h)
+    o.fixture = love.physics.newFixture(o.body, o.shape, 100)
     return o
 end
 
-function collideX(a, b)
-    local ax = tonumber(a.position.x)
-    local bx = tonumber(b.position.x)
-    local aw = tonumber(a.dimensions.w) / 2
-    local bw = tonumber(b.dimensions.w) / 2
-    local a0 = ax - aw
-    local a1 = ax + aw
-    local b0 = bx - bw
-    local b1 = bx + bw
-    return ((a0 <= b0) and (a1 >= b0)) or ((a0 <= b1) and (a1 >= b1))
-end
 
-function collideY(a, b)
-    local ay = tonumber(a.position.y)
-    local by = tonumber(b.position.y)
-    local ah = tonumber(a.dimensions.h) / 2
-    local bh = tonumber(b.dimensions.h) / 2
-    local a0 = ay - ah
-    local a1 = ay + ah
-    local b0 = by - bh
-    local b1 = by + bh
-    return ((a0 <= b0) and (a1 >= b0)) or ((a0 <= b1) and (a1 >= b1))
-end
+function brick:receive(message, controller)
 
-function collide(a, b)
-    return collideX(a, b) and collideY(a, b)
-end
-
-function brick:receive(message, broadcaster)
-    if message.name == "collide" then
-        local is_collision = collide(self, message.target)
-        if is_collision then
-            print("yes collision!")
-            message.agent.position.x = message.agent.position.x - message.direction.x
-            message.agent.position.y = message.agent.position.y - message.direction.y
-        else
-            print("no collision!")
-        end
-    end
 end
 
 
-function brick:update(dt, broadcaster)
+function brick:update(dt, controller)
 
 end
 

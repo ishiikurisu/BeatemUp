@@ -10,17 +10,16 @@ function world_view:new()
 function world_view:draw(controller)
     local black = { 0, 0, 0 }
 
-    -- TODO draw level
+    -- TODO implement camera
+
     love.graphics.setBackgroundColor(black)
 
-    -- TODO draw entities
     for _, entity in pairs(controller.entities) do
-        local x = entity.position.x + 5
-        local y = entity.position.y + 5
-        local width = entity.dimensions.w
-        local height = entity.dimensions.h
-        love.graphics.setColor(entity.color)
-        love.graphics.rectangle("fill", x, y, width, height)
+        local r = entity.color[1]
+        local g = entity.color[2]
+        local b = entity.color[3]
+        love.graphics.setColor(r, g, b)
+        love.graphics.polygon("fill", entity.body:getWorldPoints(entity.shape:getPoints()))
     end
 end
 
