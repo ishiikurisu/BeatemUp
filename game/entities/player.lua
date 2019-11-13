@@ -42,6 +42,7 @@ local function Player(world, model)
             end
         end
         self.body:setLinearVelocity(vx, vy)
+        self:apply_friction(dt)
     end
 
     return self

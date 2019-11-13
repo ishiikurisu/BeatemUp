@@ -15,8 +15,8 @@ local function Enemy(world, model)
         -- TODO make this guy follow the player
         -- TODO attack player if they are too close
         -- TODO apply some friction to this guy
+        self:apply_friction(dt)
     end
-
 
     return self
 end

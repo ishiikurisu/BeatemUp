@@ -12,6 +12,7 @@ local function Pawn(world, model)
     self.shape = love.physics.newRectangleShape(model.w, model.h)
     self.fixture = love.physics.newFixture(self.body, self.shape, 1)
     self.body:setAngularDamping(10000)
+    self.friction = 0.3
 
     function self:receive(message, controller)
     end
@@ -19,11 +20,14 @@ local function Pawn(world, model)
     function self:update(dt, controller)
     end
 
+    function self:apply_friction(dt)
+        local vx, vy = self.body:getLinearVelocity()
+        vx = vx * (1 - self.friction)
+        vy = vy * (1 - self.friction)
+        self.body:setLinearVelocity(vx, vy)
+    end
+
     return self
-end
-
-local function Pawn:update(dt, controller)
-
 end
 
 return Pawn
