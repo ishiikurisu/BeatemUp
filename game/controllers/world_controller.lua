@@ -27,7 +27,7 @@ function world_controller:new(world)
         local model = kinds[data.entity]
 
         if model ~= nil then
-            local entity = model:new(o.world, data)
+            local entity = model(o.world, data)
             table.insert(o.entities, entity)
             o.broadcaster:subscribe(entity)
         end

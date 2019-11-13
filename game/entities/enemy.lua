@@ -1,30 +1,24 @@
-local enemy = { }
-enemy.__index = enemy
+local Pawn = require "models/pawn"
 
-function enemy:new(world, model)
-    local o = { }
-    setmetatable(o, enemy)
-    o.color = {
+local function Enemy(world, model)
+    local self = Pawn(world, model)
+    self.color = {
         0,    -- red
         255,  -- green
         0     -- blue
     }
 
-    o.body = love.physics.newBody(world, model.x, model.y, "dynamic")
-    o.shape = love.physics.newRectangleShape(model.w, model.h)
-    o.fixture = love.physics.newFixture(o.body, o.shape, 1)
-    o.body:setAngularDamping(10000)
+    function self:receive(message, controller)
+    end
 
-    return o
+    function self:update(dt, controller)
+        -- TODO make this guy follow the player
+        -- TODO attack player if they are too close
+        -- TODO apply some friction to this guy
+    end
+
+
+    return self
 end
 
-function enemy:receive(message, controller)
-
-end
-
-function enemy:update(dt, controller)
-    -- TODO make this guy follow the player
-    -- TODO attack player if they are too close
-end
-
-return enemy
+return Enemy
