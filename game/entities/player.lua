@@ -24,6 +24,7 @@ function player:new(world, model)
     o.body = love.physics.newBody(world, model.x, model.y, "dynamic")
     o.shape = love.physics.newRectangleShape(model.w, model.h)
     o.fixture = love.physics.newFixture(o.body, o.shape, 5)
+    o.body:setAngularDamping(10000)
 
     return o
 end
