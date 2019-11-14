@@ -37,8 +37,8 @@ local function Player(world, model)
         for key, value in pairs(self.status) do
             if value == true then
                 local direction = signals_directions.get_direction(key)
-                vx = vx + 100 * direction.x
-                vy = vy + 100 * direction.y
+                vx = vx + 200 * direction.x
+                vy = vy + 200 * direction.y
             end
         end
         self.body:setLinearVelocity(vx, vy)

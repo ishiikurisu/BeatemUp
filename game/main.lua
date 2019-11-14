@@ -2,7 +2,7 @@ start = require "/controllers/world_controller"
 
 function love.load()
     -- TODO change this to be the main menu controller
-    current_controller = start:new("test")
+    current_controller = start("test")
 end
 
 function love.keypressed(key, scancode, isrepeat)
