@@ -69,24 +69,26 @@ local function Camera()
             player.body:getY()
         )
 
-        -- calculating required movement parameters
-        local isOutside = not self:containsPlayer(playerX, playerY, cameraX, cameraY)
-        local theta = math.atan((playerY - cameraY) / (playerX - cameraX))
-        local dx, dy = 0, 0
+        -- move camera if player is outside it
+        if not self:containsPlayer(playerX, playerY, cameraX, cameraY) then
+            -- radius, as in the distance between the camera center and its boundaries
+            local rx, ry = 0, 0
+            -- distance, as in the distance between the player and the camera
+            local dx, dy = playerX - cameraX, playerY - cameraY
+            local theta = math.atan((playerY - cameraY) / (playerX - cameraX))
 
-        if theta > math.pi / 4 then
-            dy = self.h / 2
-            dx = dy * (playerX - cameraX) / (playerY - cameraY)
-        else
-            dx = self.w / 2
-            dy = dx * (playerY - cameraY) / (playerX - cameraX)
-        end
+            -- FIXME the second parameter depends on the quadrant to which theta is related to
+            -- FIXME and the actual angle for the camera rectangle makes
+            if math.abs(theta) > math.pi / 4 then
+                ry = self.h / 2
+                rx = ry * dx / dy
+            else
+                rx = self.w / 2
+                ry = rx * dy / dx
+            end
 
-        -- move camera if required
-        local distance = ((playerX - cameraX)^2 + (playerY - cameraY)^2) ^ 0.5
-        if isOutside then
-            local translationX = (cameraRadius - distance) * (playerX - cameraX) / distance
-            local translationY = (cameraRadius - distance) * (playerY - cameraY) / distance
+            local translationX = (rx - dx) * math.cos(theta)
+            local translationY = (ry - dy) * math.sin(theta)
             love.graphics.translate(translationX, translationY)
         end
     end
