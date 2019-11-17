@@ -1,5 +1,3 @@
-local Pawn = { }
-
 local function Pawn(world, model)
     local self = { }
     self.color = {
