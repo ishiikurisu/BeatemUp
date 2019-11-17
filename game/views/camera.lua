@@ -61,6 +61,8 @@ local function Camera()
     -- @param player the player pawn
     ---------------------------------------------------------------------------
     function self:follow(player)
+        love.graphics.translate(self.translationX, self.translationY)
+
         -- getting required coordinates
         local translationX, translationY = 0, 0
         local cameraX, cameraY = love.graphics.inverseTransformPoint(self.x, self.y)
@@ -75,11 +77,13 @@ local function Camera()
             local rx, ry = 0, 0
             -- distance, as in the distance between the player and the camera
             local dx, dy = playerX - cameraX, playerY - cameraY
-            local theta = math.atan((playerY - cameraY) / (playerX - cameraX))
+            local theta = math.atan(playerY - cameraY, playerX - cameraX)
 
             -- FIXME the second parameter depends on the quadrant to which theta is related to
             -- FIXME and the actual angle for the camera rectangle makes
-            if math.abs(theta) > math.pi / 4 then
+
+            local la = math.atan(self.h, self.w)  -- limit angle
+            if math.abs(theta) > la then
                 ry = self.h / 2
                 rx = ry * dx / dy
             else
@@ -91,6 +95,9 @@ local function Camera()
             local translationY = (ry - dy) * math.sin(theta)
             love.graphics.translate(translationX, translationY)
         end
+
+        self.translationX = self.translationX + translationX
+        self.translationY = self.translationY + translationY
     end
 
     return self
