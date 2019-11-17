@@ -17,8 +17,6 @@ local function WorldView()
             love.graphics.setColor(r, g, b)
             love.graphics.polygon("fill", entity.body:getWorldPoints(entity.shape:getPoints()))
         end
-
-        self.camera:showCamera()
     end
 
     return self
