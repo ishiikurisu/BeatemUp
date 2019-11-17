@@ -5,6 +5,7 @@ local joystick_view = require "/views/joystick"
 local broadcaster = require "/signals/broadcaster"
 local level_model = require "/models/level"
 local brick_model = require "/entities/brick"
+local finish_line_model = require "/entities/finish_line"
 
 function WorldController(world)
     local self = { }
@@ -18,6 +19,7 @@ function WorldController(world)
         player = player_model,
         enemy = enemy_model,
         brick = brick_model,
+        finish_line = finish_line_model,
     }
 
     for _, data in pairs(level_model:load_level(world)) do

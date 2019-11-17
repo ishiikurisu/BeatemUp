@@ -1,10 +1,10 @@
-local function Brick(world, model)
+local function FinishLine(world, model)
     local self = { }
     self.color = {
         255, -- red
         255, -- green
         255, -- blue
-        1,   -- alpha
+        0.5, -- alpha
     }
 
     self.body = love.physics.newBody(world, model.x, model.y, "static")
@@ -22,7 +22,4 @@ local function Brick(world, model)
     return self
 end
 
-
-
-
-return Brick
+return FinishLine

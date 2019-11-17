@@ -14,7 +14,8 @@ local function WorldView()
             local r = entity.color[1]
             local g = entity.color[2]
             local b = entity.color[3]
-            love.graphics.setColor(r, g, b)
+            local a = entity.color[4]
+            love.graphics.setColor(r, g, b, a)
             love.graphics.polygon("fill", entity.body:getWorldPoints(entity.shape:getPoints()))
         end
     end

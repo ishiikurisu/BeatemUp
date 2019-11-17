@@ -54,5 +54,13 @@ return {
         w = 2100,
         h = 200,
         color = "white"
+    },
+    {
+        entity = "finish_line",
+        x = 2000+50-5,
+        y = 200+200,
+        w = 10,
+        h = 400,
+        color = "white"
     }
 }
