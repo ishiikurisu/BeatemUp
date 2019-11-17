@@ -1,29 +1,13 @@
+local Camera = require "views/camera"
+
 local function WorldView()
     local self = { }
     local black = { 0, 0, 0 }
-
-    local cameraRadius = 150
-    self.translationX = 0
-    self.translationY = 0
+    self.camera = Camera()
 
     function self:draw(controller)
-        -- CENTERING CAMERA
-        local playerX, playerY = love.graphics.transformPoint(
-            controller.player.body:getX(),
-            controller.player.body:getY()
-        )
-        local cameraX, cameraY = love.graphics.inverseTransformPoint(
-            love.graphics.getWidth() / 2,
-            love.graphics.getHeight() / 2
-        )
-        local distance = ((playerX - cameraX)^2 + (playerY - cameraY)^2) ^ 0.5
-        if distance > cameraRadius then
-            self.translationX = (cameraRadius - distance) * (playerX - cameraX) / distance
-            self.translationY = (cameraRadius - distance) * (playerY - cameraY) / distance
-        end
-        love.graphics.translate(self.translationX, self.translationY)
+        self.camera:follow(controller.player)
 
-        -- DRAWING STUFF
         love.graphics.setBackgroundColor(black)
 
         for _, entity in pairs(controller.entities) do
@@ -33,6 +17,8 @@ local function WorldView()
             love.graphics.setColor(r, g, b)
             love.graphics.polygon("fill", entity.body:getWorldPoints(entity.shape:getPoints()))
         end
+
+        self.camera:showCamera()
     end
 
     return self
