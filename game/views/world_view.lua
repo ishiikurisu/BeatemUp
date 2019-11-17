@@ -2,7 +2,7 @@ local function WorldView()
     local self = { }
     local black = { 0, 0, 0 }
 
-    local cameraRadius = 250
+    local cameraRadius = 150
     self.translationX = 0
     self.translationY = 0
 
@@ -18,11 +18,9 @@ local function WorldView()
         )
         local distance = ((playerX - cameraX)^2 + (playerY - cameraY)^2) ^ 0.5
         if distance > cameraRadius then
-            self.translationX = cameraX - playerX
-            self.translationY = cameraY - playerY
+            self.translationX = (cameraRadius - distance) * (playerX - cameraX) / distance
+            self.translationY = (cameraRadius - distance) * (playerY - cameraY) / distance
         end
-
-        -- TODO make camera follow player instead of simply moving to the player position
         love.graphics.translate(self.translationX, self.translationY)
 
         -- DRAWING STUFF

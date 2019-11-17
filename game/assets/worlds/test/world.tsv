@@ -1,8 +1,8 @@
-entity	x	y	w	h	sprite
-player	400	400	50	50	red
-enemy	200	200	50	50	green
-enemy	1000	1000	10	10	green
-brick	0	0	2000	100	white
-brick	0	100	100	1800	white
-brick	1900	100	1800	100	white
-brick	0	1900	2000	100	white
+entity	x	y	w	h	sprite	comment
+player	400	400	50	50	red	the player
+enemy	200	200	50	50	green	first enemy
+enemy	1000	1000	10	10	green	target enemy
+brick	1000	50	2000	100	white	top brick
+brick	500	1000	100	1800	white	left brick
+brick	1950	1000	100	1800	white	right brick
+brick	1000	1950	2000	100	white	bottom brick
