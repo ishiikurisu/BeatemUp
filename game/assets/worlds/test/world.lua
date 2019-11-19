@@ -13,7 +13,9 @@ return {
         y = 400,
         w = 50,
         h = 50,
-        color = "green"
+        color = "green",
+        followRange = 300,
+        attackRange = 100
     },
     {
         entity = "enemy",
@@ -21,7 +23,9 @@ return {
         y = 400,
         w = 70,
         h = 70,
-        color = "green"
+        color = "green",
+        followRange = 100,
+        attackRange = 70
     },
     {
         entity = "brick",

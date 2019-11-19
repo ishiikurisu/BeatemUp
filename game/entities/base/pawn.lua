@@ -21,6 +21,14 @@ local function Pawn(world, model)
         self.body:setLinearVelocity(vx, vy)
     end
 
+    function self:getDistance(pawn)
+        local ax = self.body:getX()
+        local ay = self.body:getY()
+        local bx = pawn.body:getX()
+        local by = pawn.body:getY()
+        return ((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5
+    end
+
     return self
 end
 
