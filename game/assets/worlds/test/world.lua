@@ -57,10 +57,16 @@ return {
     },
     {
         entity = "finish_line",
-        x = 2000+50-5,
+        x = 2000+50-25,
         y = 200+200,
-        w = 10,
+        w = 50,
         h = 400,
         color = "white"
+    },
+    {
+        entity = "level",
+        complete = function()
+            love.event.quit()
+        end
     }
 }

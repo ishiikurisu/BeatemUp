@@ -16,7 +16,12 @@ local function FinishLine(world, model)
     end
 
     function self:update(dt, controller)
-
+        if self.body:isTouching(player.body) then
+            print("level has finished!")
+            controller.broadcaster:broadcast({
+                name = "finish"
+            })
+        end
     end
 
     return self
