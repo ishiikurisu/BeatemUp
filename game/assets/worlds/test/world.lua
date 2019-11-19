@@ -14,7 +14,7 @@ return {
         w = 50,
         h = 50,
         color = "green",
-        followRange = 300,
+        followRange = 500,
         attackRange = 100
     },
     {
@@ -24,7 +24,7 @@ return {
         w = 70,
         h = 70,
         color = "green",
-        followRange = 100,
+        followRange = 400,
         attackRange = 70
     },
     {

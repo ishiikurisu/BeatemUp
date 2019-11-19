@@ -11,7 +11,7 @@ local function Enemy(world, model)
     }
     self.followRange =  model.followRange
     self.attackRange =  model.attackRange
-    self.velocity = 100
+    self.velocity = 150
 
     function self:receive(message, controller)
         self:processMovementMessages(message, controller)
@@ -22,7 +22,18 @@ local function Enemy(world, model)
         local distance = self:getDistance(controller.player)
 
         if distance < self.followRange and distance > self.attackRange then
-            -- TODO get directions from player and move there
+            local directions = self:getDirections(controller.player)
+            for direction, flag in pairs(directions) do
+                local message = "stop"
+                if flag then
+                    message = "move"
+                end
+                controller.broadcaster:broadcast({
+                    name = message,
+                    agent = self,
+                    direction = direction
+                })
+            end
         elseif distance < self.attackRange then
             -- TODO implement me!
         else
@@ -37,6 +48,35 @@ local function Enemy(world, model)
 
         -- applying physics natural effects
         self:move(dt, controller)
+    end
+
+    function self:getDirections(pawn)
+        local distance = self:getDistance(pawn)
+        local distanceX =  self.body:getX() - pawn.body:getX()
+        local distanceY =  self.body:getY() - pawn.body:getY()
+        local angleX = distanceX / distance
+        local angleY = distanceY / distance
+        local directions = {
+            up = false,
+            down = false,
+            left = false,
+            right = false
+        }
+
+        if angleY > 0.6 then
+            directions.up = true
+        end
+        if angleY < -0.6 then
+            directions.down = true
+        end
+        if angleX > 0.6 then
+            directions.left = true
+        end
+        if angleX < -0.6 then
+            directions.right = true
+        end
+
+        return directions
     end
 
     return self
