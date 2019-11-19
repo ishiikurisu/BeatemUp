@@ -1,11 +1,19 @@
 local Entity = require "/entities/base/entity"
+local signals_directions = require "/signals/directions"
 
 local function Pawn(world, model)
     local self = Entity(world, model)
+    self.kind = "dummy"
     self.color = {
         0,  -- red
         0,  -- green
         0   -- blue
+    }
+    self.status = {
+        up = false,
+        down = false,
+        left = false,
+        right = false
     }
 
     self.body = love.physics.newBody(world, model.x, model.y, "dynamic")
@@ -13,6 +21,31 @@ local function Pawn(world, model)
     self.fixture = love.physics.newFixture(self.body, self.shape, 1)
     self.body:setAngularDamping(10000)
     self.friction = 0.3
+    self.velocity = 200
+
+    function self:processMovementMessages(message, controller)
+        if message.agent == self then
+            if message.name == "move" then
+                self.status[message.direction] = true
+            elseif message.name == "stop" then
+                self.status[message.direction] = false
+            end
+        end
+    end
+
+    function self:move(dt, controller)
+        local vx = 0
+        local vy = 0
+        for key, value in pairs(self.status) do
+            if value == true then
+                local direction = signals_directions.get_direction(key)
+                vx = vx + self.velocity * direction.x
+                vy = vy + self.velocity * direction.y
+            end
+        end
+        self.body:setLinearVelocity(vx, vy)
+        self:apply_friction(dt)
+    end
 
     function self:apply_friction(dt)
         local vx, vy = self.body:getLinearVelocity()

@@ -2,6 +2,7 @@ local Pawn = require "entities/base/pawn"
 
 local function Enemy(world, model)
     local self = Pawn(world, model)
+    self.kind = "enemy"
     self.color = {
         0,    -- red
         255,  -- green
@@ -10,23 +11,32 @@ local function Enemy(world, model)
     }
     self.followRange =  model.followRange
     self.attackRange =  model.attackRange
+    self.velocity = 100
 
     function self:receive(message, controller)
+        self:processMovementMessages(message, controller)
     end
 
     function self:update(dt, controller)
+        -- checking if should act
         local distance = self:getDistance(controller.player)
 
         if distance < self.followRange and distance > self.attackRange then
-            -- TODO make this guy follow the player
-            print("I will follow!")
+            -- TODO get directions from player and move there
         elseif distance < self.attackRange then
-            -- TODO attack player if they are too close
-            print("I will attack!")
+            -- TODO implement me!
+        else
+            for direction, _ in pairs(self.status) do
+                controller.broadcaster:broadcast({
+                    name = "stop",
+                    agent = self,
+                    direction = direction
+                })
+            end
         end
 
-        -- physics natural effects
-        self:apply_friction(dt)
+        -- applying physics natural effects
+        self:move(dt, controller)
     end
 
     return self

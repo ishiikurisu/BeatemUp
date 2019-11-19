@@ -1,5 +1,4 @@
 local Pawn = require "entities/base/pawn"
-local signals_directions = require "/signals/directions"
 
 local function Player(world, model)
     local self = Pawn(world, model)
@@ -13,37 +12,13 @@ local function Player(world, model)
         0,   -- blue
         1,   -- alpha
     }
-    self.status = {
-        up = false,
-        down = false,
-        left = false,
-        right = false
-    }
 
     function self:receive(message, controller)
-        local direction = nil
-
-        if message.agent == self then
-            if message.name == "move" then
-                self.status[message.direction] = true
-            elseif message.name == "stop" then
-                self.status[message.direction] = false
-            end
-        end
+        self:processMovementMessages(message, controller)
     end
 
     function self:update(dt, controller)
-        local vx = 0
-        local vy = 0
-        for key, value in pairs(self.status) do
-            if value == true then
-                local direction = signals_directions.get_direction(key)
-                vx = vx + 200 * direction.x
-                vy = vy + 200 * direction.y
-            end
-        end
-        self.body:setLinearVelocity(vx, vy)
-        self:apply_friction(dt)
+        self:move(dt, controller)
     end
 
     return self
