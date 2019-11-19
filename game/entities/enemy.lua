@@ -1,4 +1,4 @@
-local Pawn = require "models/pawn"
+local Pawn = require "entities/base/pawn"
 
 local function Enemy(world, model)
     local self = Pawn(world, model)

@@ -1,5 +1,7 @@
+local Entity = require "/entities/base/entity"
+
 local function Pawn(world, model)
-    local self = { }
+    local self = Entity(world, model)
     self.color = {
         0,  -- red
         0,  -- green
@@ -11,12 +13,6 @@ local function Pawn(world, model)
     self.fixture = love.physics.newFixture(self.body, self.shape, 1)
     self.body:setAngularDamping(10000)
     self.friction = 0.3
-
-    function self:receive(message, controller)
-    end
-
-    function self:update(dt, controller)
-    end
 
     function self:apply_friction(dt)
         local vx, vy = self.body:getLinearVelocity()

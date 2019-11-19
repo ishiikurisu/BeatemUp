@@ -1,5 +1,7 @@
+local Entity = require "/entities/base/entity"
+
 local function Brick(world, model)
-    local self = { }
+    local self = Entity(world, model)
     self.color = {
         255, -- red
         255, -- green

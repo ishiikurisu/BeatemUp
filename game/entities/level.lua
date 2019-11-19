@@ -1,5 +1,7 @@
+local Entity = require "/entities/base/entity"
+
 local function Level(world, model)
-    local self = { }
+    local self = Entity(world, model)
 
     self.complete = model.complete
     self.concept = true
@@ -8,9 +10,6 @@ local function Level(world, model)
         if message.name == "finish" then
             self.complete()
         end
-    end
-
-    function self:update(dt, controller)
     end
 
     return self

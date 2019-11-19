@@ -1,5 +1,7 @@
+local Entity = require "/entities/base/entity"
+
 local function FinishLine(world, model)
-    local self = { }
+    local self = Entity(world, model)
     self.color = {
         255, -- red
         255, -- green
@@ -11,12 +13,8 @@ local function FinishLine(world, model)
     self.shape = love.physics.newRectangleShape(model.w, model.h)
     self.fixture = love.physics.newFixture(self.body, self.shape, 100)
 
-    function self:receive(message, controller)
-
-    end
-
     function self:update(dt, controller)
-        if self.body:isTouching(player.body) then
+        if self.body:isTouching(controller.player.body) then
             print("level has finished!")
             controller.broadcaster:broadcast({
                 name = "finish"

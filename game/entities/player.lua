@@ -1,4 +1,4 @@
-local Pawn = require "models/pawn"
+local Pawn = require "entities/base/pawn"
 local signals_directions = require "/signals/directions"
 
 local function Player(world, model)
