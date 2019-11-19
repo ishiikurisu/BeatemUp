@@ -5,7 +5,8 @@ local function Enemy(world, model)
     self.color = {
         0,    -- red
         255,  -- green
-        0     -- blue
+        0,    -- blue
+        1,    -- alpha
     }
 
     function self:receive(message, controller)

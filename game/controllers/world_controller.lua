@@ -1,10 +1,12 @@
 local world_view = require "/views/world_view"
-local player_model = require "/entities/player"
-local enemy_model = require "/entities/enemy"
+local player_entity = require "/entities/player"
+local enemy_entity = require "/entities/enemy"
 local joystick_view = require "/views/joystick"
 local broadcaster = require "/signals/broadcaster"
 local level_model = require "/models/level"
-local brick_model = require "/entities/brick"
+local brick_entity = require "/entities/brick"
+local finish_line_entity = require "/entities/finish_line"
+local level_entity = require "/entities/level"
 
 function WorldController(world)
     local self = { }
@@ -15,9 +17,11 @@ function WorldController(world)
     self.broadcaster = broadcaster:new()
     self.entities = { }
     local kinds = {
-        player = player_model,
-        enemy = enemy_model,
-        brick = brick_model,
+        player = player_entity,
+        enemy = enemy_entity,
+        brick = brick_entity,
+        finish_line = finish_line_entity,
+        level = level_entity,
     }
 
     for _, data in pairs(level_model:load_level(world)) do
@@ -29,6 +33,9 @@ function WorldController(world)
             self.broadcaster:subscribe(entity)
             if data.entity == 'player' then
                 self.player = entity
+            end
+            if data.entity == 'level' then
+                self.level = entity
             end
         end
     end

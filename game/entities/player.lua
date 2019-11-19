@@ -10,7 +10,8 @@ local function Player(world, model)
     self.color = {
         255, -- red
         0,   -- green
-        0    -- blue
+        0,   -- blue
+        1,   -- alpha
     }
     self.status = {
         up = false,
