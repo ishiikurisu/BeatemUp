@@ -1,4 +1,5 @@
 local Entity = require "/entities/base/entity"
+local Hitbox = require "/entities/hitbox"
 local signals_directions = require "/signals/directions"
 
 local function Pawn(world, model)
@@ -15,6 +16,7 @@ local function Pawn(world, model)
         left = false,
         right = false
     }
+    self.face = 1  -- positive for left, negative for right
 
     self.body = love.physics.newBody(world, model.x, model.y, "dynamic")
     self.shape = love.physics.newRectangleShape(model.w, model.h)
@@ -36,6 +38,7 @@ local function Pawn(world, model)
     function self:move(dt, controller)
         local vx = 0
         local vy = 0
+
         for key, value in pairs(self.status) do
             if value == true then
                 local direction = signals_directions.get_direction(key)
@@ -45,6 +48,12 @@ local function Pawn(world, model)
         end
         self.body:setLinearVelocity(vx, vy)
         self:apply_friction(dt)
+
+        if vx > 0 then
+            self.face = 1
+        elseif vx < 0 then
+            self.face = -1
+        end
     end
 
     function self:apply_friction(dt)
@@ -60,6 +69,16 @@ local function Pawn(world, model)
         local bx = pawn.body:getX()
         local by = pawn.body:getY()
         return ((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5
+    end
+
+    function self:hit()
+        return Hitbox(world, {
+            x = self.body:getX() + (5 + model.w) * self.face,
+            y = self.body:getY(),
+            w = 50,
+            h = model.h * 0.9,
+            lifespan = 0.2,
+        })
     end
 
     return self

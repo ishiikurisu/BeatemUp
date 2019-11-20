@@ -15,6 +15,11 @@ local function Player(world, model)
 
     function self:receive(message, controller)
         self:processMovementMessages(message, controller)
+
+        if message.name == 'attack' then
+            local hitbox = self:hit()
+            controller.entities[hitbox] = true
+        end
     end
 
     function self:update(dt, controller)

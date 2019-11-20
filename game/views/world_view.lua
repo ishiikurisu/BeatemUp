@@ -10,7 +10,7 @@ local function WorldView()
 
         love.graphics.setBackgroundColor(black)
 
-        for _, entity in pairs(controller.entities) do
+        for entity, _ in pairs(controller.entities) do
             if not entity.concept then
                 local r = entity.color[1]
                 local g = entity.color[2]

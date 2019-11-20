@@ -29,7 +29,7 @@ function WorldController(world)
 
         if model then
             local entity = model(self.world, data)
-            table.insert(self.entities, entity)
+            self.entities[entity] = true
             self.broadcaster:subscribe(entity)
             if data.entity == 'player' then
                 self.player = entity
@@ -58,7 +58,7 @@ function WorldController(world)
         end
         self.actions = { }
 
-        for _, it in pairs(self.entities) do
+        for it, _ in pairs(self.entities) do
             it:update(dt, self)
         end
 

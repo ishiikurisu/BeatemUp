@@ -6,7 +6,7 @@ function joystick:new(controller)
     setmetatable(o, joystick)
 
     o.player = nil
-    for _, entity in pairs(controller.entities) do
+    for entity, _ in pairs(controller.entities) do
         if entity.kind == "player" then
             o.player = entity
         end
@@ -67,6 +67,12 @@ function joystick:translate(inlet)
                 direction = "right"
             }
         end
+    end
+
+    if inlet.key == 'j' and inlet.edge == 'rise' then
+        outlet = {
+            name = "attack",
+        }
     end
 
     if outlet ~= nil then
