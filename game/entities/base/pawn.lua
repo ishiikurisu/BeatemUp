@@ -28,6 +28,7 @@ local function Pawn(world, model)
     self.health = model.health
     self.totalHealth = model.health
     self.strength = model.strength
+    self.staminaRange = 1
     self.stamina = 0
     self.gracePeriod = 0
 
@@ -77,17 +78,6 @@ local function Pawn(world, model)
         return ((ax - bx) ^ 2 + (ay - by) ^ 2) ^ 0.5
     end
 
-    function self:hit()
-        return Hitbox(world, {
-            x = self.body:getX() + (5 + model.w) * self.face,
-            y = self.body:getY(),
-            w = 20,
-            h = model.h * 0.9,
-            lifespan = 0.2,
-            agent = self,
-        })
-    end
-
     function self:processHits(message, controller)
         if message.name == "hurt" then
             local agent = message.agent
@@ -108,6 +98,21 @@ local function Pawn(world, model)
         end
         if self.gracePeriod < 0 then
             self.gracePeriod = self.gracePeriod + dt
+        end
+    end
+
+    function self:hit(controller)
+        if self.stamina >= 0 then
+            local hitbox = Hitbox(world, {
+                x = self.body:getX() + (5 + model.w) * self.face,
+                y = self.body:getY(),
+                w = 20,
+                h = model.h * 0.9,
+                lifespan = 0.2,
+                agent = self,
+            })
+            controller.entities[hitbox] = true
+            self.stamina = -self.staminaRange
         end
     end
 

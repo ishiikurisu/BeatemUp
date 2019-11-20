@@ -33,12 +33,8 @@ local function Enemy(world, model)
                 direction = direction
             }, controller)
         end
-
-        if distance < self.attackRange and self.stamina >= 0 then
-            -- TODO move this logic to pawn
-            local hitbox = self:hit()
-            controller.entities[hitbox] = true
-            self.stamina = -self.staminaRange
+        if distance < self.attackRange then
+            self:hit(controller)
         end
 
         -- applying natural effects

@@ -18,9 +18,7 @@ local function Player(world, model)
         self:processMovementMessages(message, controller)
 
         if message.name == 'attack' and message.agent == self then
-            -- TODO implement stamina for player as well
-            local hitbox = self:hit()
-            controller.entities[hitbox] = true
+            self:hit(controller)
         end
     end
 
