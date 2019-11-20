@@ -18,7 +18,7 @@ local function FinishLine(world, model)
             print("level has finished!")
             controller.broadcaster:broadcast({
                 name = "finish"
-            })
+            }, controller)
         end
     end
 

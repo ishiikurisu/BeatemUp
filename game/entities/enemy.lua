@@ -13,9 +13,9 @@ local function Enemy(world, model)
     self.attackRange =  model.attackRange
     self.staminaRange = model.staminaRange
     self.velocity = 150
-    self.stamina = 0
 
     function self:receive(message, controller)
+        self:processHits(message, controller)
         self:processMovementMessages(message, controller)
     end
 
@@ -31,7 +31,7 @@ local function Enemy(world, model)
                 name = message,
                 agent = self,
                 direction = direction
-            })
+            }, controller)
         end
 
         if distance < self.attackRange and self.stamina >= 0 then
@@ -41,11 +41,8 @@ local function Enemy(world, model)
             self.stamina = -self.staminaRange
         end
 
-        if self.stamina < 0 then
-            self.stamina = self.stamina + dt
-        end
-
-        -- applying physics natural effects
+        -- applying natural effects
+        self:applyBodyFunctions(dt, controller)
         self:move(dt, controller)
     end
 

@@ -25,6 +25,12 @@ local function Pawn(world, model)
     self.friction = 0.3
     self.velocity = 200
 
+    self.health = model.health
+    self.totalHealth = model.health
+    self.strength = model.strength
+    self.stamina = 0
+    self.gracePeriod = 0
+
     function self:processMovementMessages(message, controller)
         if message.agent == self then
             if message.name == "move" then
@@ -78,7 +84,31 @@ local function Pawn(world, model)
             w = 20,
             h = model.h * 0.9,
             lifespan = 0.2,
+            agent = self,
         })
+    end
+
+    function self:processHits(message, controller)
+        if message.name == "hurt" then
+            local agent = message.agent
+            local target = message.target
+            if agent ~= target and target.gracePeriod >= 0 then
+                target.health = target.health - agent.strength
+                target.gracePeriod = -1
+                if target.health <= 0 then
+                    controller:destroy(target)
+                end
+            end
+        end
+    end
+
+    function self:applyBodyFunctions(dt, controller)
+        if self.stamina < 0 then
+            self.stamina = self.stamina + dt
+        end
+        if self.gracePeriod < 0 then
+            self.gracePeriod = self.gracePeriod + dt
+        end
     end
 
     return self

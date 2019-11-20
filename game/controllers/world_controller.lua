@@ -65,6 +65,14 @@ function WorldController(world)
         return controller
     end
 
+    function self:destroy(entity)
+        if entity.fixture and not entity.fixture:isDestroyed() then
+            entity.fixture:destroy()
+        end
+        self.entities[entity] = nil
+        -- TODO implement game over screen if player is killed
+    end
+
     function self:draw()
         self.view:draw(self)
     end

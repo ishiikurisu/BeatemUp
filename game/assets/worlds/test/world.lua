@@ -5,7 +5,9 @@ return {
         y = 400,
         w = 50,
         h = 50,
-        color = "red"
+        color = "red",
+        health = 200,
+        strength = 50,
     },
     {
         entity = "enemy",
@@ -16,7 +18,9 @@ return {
         color = "green",
         followRange = 500,
         attackRange = 60,
-        staminaRange = 2
+        staminaRange = 2,
+        health = 100,
+        strength = 50,
     },
     {
         entity = "enemy",
@@ -27,7 +31,9 @@ return {
         color = "green",
         followRange = 400,
         attackRange = 60,
-        staminaRange = 3
+        staminaRange = 3,
+        health = 400,
+        strength = 50,
     },
     {
         entity = "brick",

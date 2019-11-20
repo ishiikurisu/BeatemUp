@@ -14,6 +14,7 @@ local function Player(world, model)
     }
 
     function self:receive(message, controller)
+        self:processHits(message, controller)
         self:processMovementMessages(message, controller)
 
         if message.name == 'attack' and message.agent == self then
@@ -24,6 +25,7 @@ local function Player(world, model)
     end
 
     function self:update(dt, controller)
+        self:applyBodyFunctions(dt, controller)
         self:move(dt, controller)
     end
 
