@@ -16,7 +16,8 @@ local function Player(world, model)
     function self:receive(message, controller)
         self:processMovementMessages(message, controller)
 
-        if message.name == 'attack' then
+        if message.name == 'attack' and message.agent == self then
+            -- TODO implement stamina for player as well
             local hitbox = self:hit()
             controller.entities[hitbox] = true
         end

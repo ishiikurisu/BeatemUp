@@ -11,7 +11,9 @@ local function Enemy(world, model)
     }
     self.followRange =  model.followRange
     self.attackRange =  model.attackRange
+    self.staminaRange = model.staminaRange
     self.velocity = 150
+    self.stamina = 0
 
     function self:receive(message, controller)
         self:processMovementMessages(message, controller)
@@ -19,31 +21,28 @@ local function Enemy(world, model)
 
     function self:update(dt, controller)
         -- checking if should act
-        local distance = self:getDistance(controller.player)
+        local distance, directions = self:getDirections(controller.player)
+        for direction, flag in pairs(directions) do
+            local message = "stop"
+            if flag then
+                message = "move"
+            end
+            controller.broadcaster:broadcast({
+                name = message,
+                agent = self,
+                direction = direction
+            })
+        end
 
-        if distance < self.followRange and distance > self.attackRange then
-            local directions = self:getDirections(controller.player)
-            for direction, flag in pairs(directions) do
-                local message = "stop"
-                if flag then
-                    message = "move"
-                end
-                controller.broadcaster:broadcast({
-                    name = message,
-                    agent = self,
-                    direction = direction
-                })
-            end
-        elseif distance < self.attackRange then
-            -- TODO implement me!
-        else
-            for direction, _ in pairs(self.status) do
-                controller.broadcaster:broadcast({
-                    name = "stop",
-                    agent = self,
-                    direction = direction
-                })
-            end
+        if distance < self.attackRange and self.stamina >= 0 then
+            -- TODO move this logic to pawn
+            local hitbox = self:hit()
+            controller.entities[hitbox] = true
+            self.stamina = -self.staminaRange
+        end
+
+        if self.stamina < 0 then
+            self.stamina = self.stamina + dt
         end
 
         -- applying physics natural effects
@@ -63,20 +62,22 @@ local function Enemy(world, model)
             right = false
         }
 
-        if angleY > 0.6 then
-            directions.up = true
-        end
-        if angleY < -0.6 then
-            directions.down = true
-        end
-        if angleX > 0.6 then
-            directions.left = true
-        end
-        if angleX < -0.6 then
-            directions.right = true
+        if distance < self.followRange and distance > self.attackRange then
+            if angleY > 0.6 then
+                directions.up = true
+            end
+            if angleY < -0.6 then
+                directions.down = true
+            end
+            if angleX > 0.6 then
+                directions.left = true
+            end
+            if angleX < -0.6 then
+                directions.right = true
+            end
         end
 
-        return directions
+        return distance, directions
     end
 
     return self

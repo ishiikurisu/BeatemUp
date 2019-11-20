@@ -75,7 +75,7 @@ local function Pawn(world, model)
         return Hitbox(world, {
             x = self.body:getX() + (5 + model.w) * self.face,
             y = self.body:getY(),
-            w = 50,
+            w = 20,
             h = model.h * 0.9,
             lifespan = 0.2,
         })

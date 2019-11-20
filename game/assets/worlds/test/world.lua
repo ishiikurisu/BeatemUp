@@ -15,7 +15,8 @@ return {
         h = 50,
         color = "green",
         followRange = 500,
-        attackRange = 100
+        attackRange = 60,
+        staminaRange = 2
     },
     {
         entity = "enemy",
@@ -25,7 +26,8 @@ return {
         h = 70,
         color = "green",
         followRange = 400,
-        attackRange = 70
+        attackRange = 60,
+        staminaRange = 3
     },
     {
         entity = "brick",
