@@ -13,6 +13,8 @@ local function WorldView()
         love.graphics.setBackgroundColor(black)
 
         for entity, _ in pairs(controller.entities) do
+            -- drawing sprite
+            -- TODO use real sprites here instead of engineering art
             if not entity.concept then
                 local r = entity.color[1]
                 local g = entity.color[2]
@@ -28,16 +30,16 @@ local function WorldView()
                 local healthyH = 10
                 local healthyX = entity.body:getX() - 75 / 2
                 local healthyY = entity.body:getY() - 70
-                local healthyT = 0.3  -- TODO  make health bar transparent as time passes
+                local healthyT = entity:getHealthDecay()
                 love.graphics.setColor(green[1], green[2], green[3], healthyT)
                 love.graphics.rectangle("fill", healthyX, healthyY, healthyW, healthyH)
 
                 -- unhealthy part
                 local unhealthyW = 75 * (1 - entity.health / entity.totalHealth)
-                local unhealthyH = 10
+                local unhealthyH = healthyH
                 local unhealthyX = entity.body:getX() - 75 / 2 + healthyW
-                local unhealthyY = entity.body:getY() - 70
-                local unhealthyT = 0.3
+                local unhealthyY = healthyY
+                local unhealthyT = healthyT
                 love.graphics.setColor(red[1], red[2], red[3], unhealthyT)
                 love.graphics.rectangle("fill", unhealthyX, unhealthyY, unhealthyW, unhealthyH)
             end

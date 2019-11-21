@@ -31,6 +31,7 @@ local function Pawn(world, model)
     self.staminaRange = 1
     self.stamina = 0
     self.gracePeriod = 0
+    self.healthRelevancy = 10
 
     function self:processMovementMessages(message, controller)
         if message.agent == self then
@@ -85,6 +86,7 @@ local function Pawn(world, model)
             if agent ~= target and target.gracePeriod >= 0 then
                 target.health = target.health - agent.strength
                 target.gracePeriod = -1
+                target.healthRelevancy = 0
                 if target.health <= 0 then
                     controller:destroy(target)
                 end
@@ -99,6 +101,7 @@ local function Pawn(world, model)
         if self.gracePeriod < 0 then
             self.gracePeriod = self.gracePeriod + dt
         end
+        self.healthRelevancy = self.healthRelevancy + dt
     end
 
     function self:hit(controller)
@@ -114,6 +117,15 @@ local function Pawn(world, model)
             controller.entities[hitbox] = true
             self.stamina = -self.staminaRange
         end
+    end
+
+    function self:getHealthDecay()
+        -- IDEA this should probably go to a pawn view class or something like this
+        local maxHealthDecay = 0.3
+        if self.healthRelevancy < 0.5 then
+            return maxHealthDecay
+        end
+        return maxHealthDecay * math.exp(-self.healthRelevancy)
     end
 
     return self
