@@ -13,7 +13,7 @@ local function Hitbox(world, model)
     self.shape = love.physics.newRectangleShape(model.w, model.h)
     self.fixture = love.physics.newFixture(self.body, self.shape, 100)
     self.lifespan = model.lifespan
-    self.concept = false  -- change this to false whenever you want to see hitboxes
+    self.concept = true  -- change this to false whenever you want to see hitboxes
     self.agent = model.agent
 
     function self:update(dt, controller)

@@ -1,6 +1,7 @@
 local Entity = require "/entities/base/entity"
 local Hitbox = require "/entities/hitbox"
 local signals_directions = require "/signals/directions"
+local PawnView = require "/views/entities/pawn"
 
 local function Pawn(world, model)
     local self = Entity(world, model)
@@ -17,6 +18,9 @@ local function Pawn(world, model)
         right = false
     }
     self.face = 1  -- positive for left, negative for right
+
+    self.view = PawnView(model.sprite)
+    self.concept = false
 
     self.body = love.physics.newBody(world, model.x, model.y, "dynamic")
     self.shape = love.physics.newRectangleShape(model.w, model.h)

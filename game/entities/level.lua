@@ -5,6 +5,7 @@ local function Level(world, model)
 
     self.complete = model.complete
     self.concept = true
+    -- TODO load background image for level
 
     function self:receive(message, controller)
         if message.name == "finish" then

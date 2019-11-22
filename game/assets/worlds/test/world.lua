@@ -5,7 +5,7 @@ return {
         y = 400,
         w = 50,
         h = 50,
-        color = "red",
+        sprite = "Joel",
         health = 200,
         strength = 50,
     },

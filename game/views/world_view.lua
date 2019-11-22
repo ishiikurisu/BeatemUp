@@ -6,10 +6,31 @@ local function WorldView()
     local green = { 0, 1, 0, 0.3 }
     local red = { 1, 0, 0, 0.3 }
     self.camera = Camera()
+    self.debug = false
 
     function self:draw(controller)
         self.camera:follow(controller.player)
 
+        if self.debug then
+            self:drawDebug(controller)
+        end
+        self:drawEntites(controller)
+    end
+
+    function self:drawEntites(controller)
+        -- TODO draw background
+        -- TODO sort entities by their Z position
+        -- TODO sort entities in the same Z position by their Y axis
+        -- TODO sort entities in the same Y position by their X axis
+        -- TODO draw entities
+        for entity, _ in pairs(controller.entities) do
+            if not entity.concept and entity.view.drawable then
+                entity.view:draw(entity)
+            end
+        end
+    end
+
+    function self:drawDebug(controller)
         love.graphics.setBackgroundColor(black)
 
         for entity, _ in pairs(controller.entities) do
