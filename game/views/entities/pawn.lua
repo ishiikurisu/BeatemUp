@@ -10,7 +10,6 @@ local function listAllSprites(spriteFolder)
         for _, frame in pairs(frames) do
             local imagePath = positionFolder .. frame
             local image = love.graphics.newImage(imagePath)
-            print(position)
             table.insert(sprites[position], image)
         end
     end
@@ -41,7 +40,6 @@ local function PawnView(spriteFolder)
 
     function self:draw(entity)
         -- TODO get current state
-        -- TODO get current direction
         -- possible states:
         -- - still
         -- - walking
@@ -49,6 +47,9 @@ local function PawnView(spriteFolder)
         -- - punched
         local state = "Still"
         local direction = "Right"
+        if entity.face < 0 then
+            direction = "Left"
+        end
         local template = state .. direction
         local sprite = self.sprites[template][self.frame]
 
