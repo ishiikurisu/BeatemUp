@@ -77,6 +77,7 @@ return {
     },
     {
         entity = "level",
+        sprite = "test",
         complete = function()
             love.event.quit()
         end
