@@ -10,6 +10,7 @@ local function LevelView(spriteFolder)
     end
 
     function self:draw(entity)
+        love.graphics.setColor(255, 255, 255)
         love.graphics.draw(self.sprites.background, 0, 0)
     end
 
