@@ -25,6 +25,7 @@ local function PawnView(spriteFolder)
     self.sprites = { }
     self.frame = 1
     self.subFrame = 1
+    self.lastState = nil
     if spriteFolder then
         self.sprites = listAllSprites(spriteFolder)
         self.drawable = true
@@ -45,7 +46,7 @@ local function PawnView(spriteFolder)
         -- - walking
         -- - punching
         -- - punched
-        local state = "Still"
+        local state = entity:getDrawableState()
         local direction = "Right"
         if entity.face < 0 then
             direction = "Left"
@@ -60,15 +61,21 @@ local function PawnView(spriteFolder)
         love.graphics.draw(sprite, x, y)
 
         -- updating frame
-        self.subFrame = self.subFrame + 1
-        if self.subFrame >= 24 then
-            if self.frame == #self.sprites[template] then
-                self.frame = 1
-            else
-                self.frame = self.frame + 1
+        if state == self.lastState then
+            self.subFrame = self.subFrame + 1
+            if self.subFrame >= 13 then
+                if self.frame == #self.sprites[template] then
+                    self.frame = 1
+                else
+                    self.frame = self.frame + 1
+                end
+                self.subFrame = 1
             end
+        else
             self.subFrame = 1
+            self.frame = 1
         end
+        self.lastState = state
     end
 
     return self
