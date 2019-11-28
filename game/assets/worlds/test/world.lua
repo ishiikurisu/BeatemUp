@@ -15,7 +15,7 @@ return {
         y = 400,
         w = 50,
         h = 50,
-        color = "green",
+        sprite = "RegularZombie",
         followRange = 500,
         attackRange = 60,
         staminaRange = 2,
