@@ -13,14 +13,6 @@ local function Brick(world, model)
     self.shape = love.physics.newRectangleShape(model.w, model.h)
     self.fixture = love.physics.newFixture(self.body, self.shape, 100)
 
-    function self:receive(message, controller)
-
-    end
-
-    function self:update(dt, controller)
-
-    end
-
     return self
 end
 
