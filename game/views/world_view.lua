@@ -30,6 +30,20 @@ local function WorldView()
         end
     end
 
+    self.sortEntities = function(a, b)
+        local az = a.view.z
+        local bz = b.view.z
+        if az == bz then
+            local ay = a.body:getY()
+            local by = b.body:getY()
+            if ay == by then
+                return a.body:getX() < a.body:getX()
+            end
+            return ay < by
+        end
+        return az < bz
+    end
+
     function self:drawEntites(controller)
         -- TODO sort entities in the same Z position by their Y axis
         -- TODO sort entities in the same Y position by their X axis
@@ -39,7 +53,7 @@ local function WorldView()
                 table.insert(entities, entity)
             end
         end
-        table.sort(entities, function(a, b) return a.view.z < b.view.z end)
+        table.sort(entities, self.sortEntities)
 
         -- drawing entities
         for _, entity in pairs(entities) do
