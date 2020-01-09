@@ -58,6 +58,7 @@ local function PawnView(spriteFolder)
         -- TODO correct X and Y according to sprite size
         local x = entity.body:getX() - 25
         local y = entity.body:getY() - 40
+        love.graphics.setColor(255, 255, 255)
         love.graphics.draw(sprite, x, y)
 
         -- updating frame

@@ -20,6 +20,7 @@ local function FinishLine(world, model)
                 name = "finish"
             }, controller)
         end
+        return controller
     end
 
     return self

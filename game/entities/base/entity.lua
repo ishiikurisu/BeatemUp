@@ -6,6 +6,7 @@ local function Entity(world, model)
     end
 
     function self:update(dt, controller)
+        return controller
     end
 
     return self

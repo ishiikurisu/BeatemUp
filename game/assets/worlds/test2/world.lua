@@ -28,7 +28,7 @@ return {
         y = 400,
         w = 70,
         h = 70,
-        sprite = "RegularZombie",
+        color = "green",
         followRange = 400,
         attackRange = 60,
         staminaRange = 3,
@@ -41,6 +41,7 @@ return {
         y = 100,
         w = 2100,
         h = 200,
+        color = "white"
     },
     {
         entity = "brick",
@@ -48,6 +49,7 @@ return {
         y = 400,
         w = 50,
         h = 400,
+        color = "white"
     },
     {
         entity = "brick",
@@ -55,6 +57,7 @@ return {
         y = 400,
         w = 50,
         h = 400,
+        color = "white"
     },
     {
         entity = "brick",
@@ -62,6 +65,7 @@ return {
         y = 700,
         w = 2100,
         h = 200,
+        color = "white"
     },
     {
         entity = "finish_line",
@@ -69,12 +73,13 @@ return {
         y = 200+200,
         w = 50,
         h = 400,
+        color = "white"
     },
     {
         entity = "level",
         sprite = "test",
         complete = function(controller)
-            return controller:loadLevel('test2')
+            love.event.quit()
         end
     }
 }

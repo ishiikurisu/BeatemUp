@@ -40,6 +40,8 @@ local function Enemy(world, model)
         -- applying natural effects
         self:applyBodyFunctions(dt, controller)
         self:move(dt, controller)
+
+        return controller
     end
 
     function self:getDirections(pawn)
