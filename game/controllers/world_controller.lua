@@ -11,6 +11,7 @@ local level_entity = require "/entities/level"
 function WorldController(world)
     local self = { }
 
+    self.name = world
     self.actions = { }
     love.physics.setMeter(2)
     self.world = love.physics.newWorld(0, 0, true)
@@ -50,8 +51,6 @@ function WorldController(world)
     end
 
     function self:update(dt)
-        local controller = self
-
         self.world:update(dt)
         for _, action in pairs(self.actions) do
             self.broadcaster:broadcast(action, self)
@@ -59,10 +58,13 @@ function WorldController(world)
         self.actions = { }
 
         for it, _ in pairs(self.entities) do
-            it:update(dt, self)
+            local controller = it:update(dt, self)
+            if controller ~= self then
+                return controller
+            end
         end
 
-        return controller
+        return self
     end
 
     function self:destroy(entity)
@@ -75,6 +77,10 @@ function WorldController(world)
 
     function self:draw()
         self.view:draw(self)
+    end
+
+    function self:loadLevel(newWorld)
+        return WorldController(newWorld)
     end
 
     return self

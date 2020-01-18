@@ -25,6 +25,7 @@ local function Player(world, model)
     function self:update(dt, controller)
         self:applyBodyFunctions(dt, controller)
         self:move(dt, controller)
+        return controller
     end
 
     return self

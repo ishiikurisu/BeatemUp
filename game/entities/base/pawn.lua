@@ -132,6 +132,25 @@ local function Pawn(world, model)
         return maxHealthDecay * math.exp(-self.healthRelevancy)
     end
 
+    function self:getDrawableState()
+        local state = "Still"
+        local punching = self.stamina < 0
+        local walking = false
+
+        for _, status in pairs(self.status) do
+            walking = walking or status
+        end
+
+        if walking then
+            state = "Walk"
+        end
+        if punching then
+            state = "Punch"
+        end
+
+        return state
+    end
+
     return self
 end
 

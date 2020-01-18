@@ -36,6 +36,8 @@ local function Hitbox(world, model)
                 }, controller)
             end
         end
+
+        return controller
     end
 
     return self
