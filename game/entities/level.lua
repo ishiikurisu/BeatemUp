@@ -1,11 +1,12 @@
 local Entity = require "/entities/base/entity"
+local LevelView = require "/views/entities/level"
 
 local function Level(world, model)
     local self = Entity(world, model)
 
     self.complete = model.complete
-    self.concept = true
-    -- TODO load background image for level
+    self.concept = false
+    self.view = LevelView(model.sprite)
 
     function self:receive(message, controller)
         if message.name == "finish" then

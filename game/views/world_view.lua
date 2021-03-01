@@ -18,15 +18,19 @@ local function WorldView()
     end
 
     function self:drawEntites(controller)
-        -- TODO draw background
-        -- TODO sort entities by their Z position
         -- TODO sort entities in the same Z position by their Y axis
         -- TODO sort entities in the same Y position by their X axis
-        -- TODO draw entities
+        local entities = { }
         for entity, _ in pairs(controller.entities) do
-            if not entity.concept and entity.view.drawable then
-                entity.view:draw(entity)
+            if not entity.concept and entity.view and entity.view.drawable then
+                table.insert(entities, entity)
             end
+        end
+        table.sort(entities, function(a, b) return a.view.z < b.view.z end)
+
+        -- drawing entities
+        for _, entity in pairs(entities) do
+            entity.view:draw(entity)
         end
     end
 
